@@ -1,0 +1,116 @@
+Documentación del Proyecto Laboratorio CRUD en Laravel
+1. Resumen
+
+Este documento describe el proceso de desarrollo de una aplicación CRUD utilizando el framework Laravel dentro de un entorno local con WAMP.
+
+El sistema permite la gestión de productos mediante operaciones de creación, consulta, actualización y eliminación (CRUD), conectándose a una base de datos MySQL.
+
+2. Entorno de Trabajo
+Servidor local: WAMP
+Framework: Laravel
+Base de datos: MySQL
+Administrador de BD: phpMyAdmin
+Lenguaje: PHP
+Paquete adicional: ibex/crud-generator
+3. Desarrollo del Proyecto
+3.1 Creación del Proyecto
+
+Se creó una nueva aplicación Laravel dentro del directorio www de WAMP.
+
+composer create-project laravel/laravel LaboratorioCrud
+3.2 Configuración de Base de Datos
+
+Se creó la base de datos crudlab en phpMyAdmin y se configuró el archivo .env:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=crudlab
+DB_USERNAME=root
+DB_PASSWORD=
+3.3 Limpieza de Configuración
+
+Se limpió la caché de configuración para aplicar los cambios:
+
+php artisan config:clear
+3.4 Creación del Modelo y Migración
+
+Se generó el modelo Product junto con su migración:
+
+php artisan make:model Product -m
+3.5 Definición de la Tabla
+
+En el archivo de migración se definieron los campos:
+
+descripcion
+precio
+stock
+created_at
+updated_at
+3.6 Ejecución de Migraciones
+
+Se ejecutaron las migraciones para crear la tabla en MySQL:
+
+php artisan migrate:fresh
+3.7 Instalación del Generador CRUD
+
+Se instaló el paquete para automatizar la creación del CRUD:
+
+composer require ibex/crud-generator --dev
+3.8 Publicación del Paquete
+
+Se publicaron los archivos necesarios:
+
+php artisan vendor:publish --tag=crud
+3.9 Generación del CRUD
+
+Se generó el módulo CRUD de productos:
+
+php artisan make:crud products
+3.10 Configuración de Rutas
+
+En el archivo routes/web.php se agregó:
+
+Route::resource('products', ProductController::class);
+
+Esto habilita automáticamente las acciones:
+
+index
+create
+store
+show
+edit
+update
+destroy
+3.11 Integración en la Interfaz
+
+Se agregó acceso al módulo de productos desde la interfaz principal mediante un enlace o botón.
+
+3.12 Ejecución del Proyecto
+
+Se inició el servidor de desarrollo:
+
+php artisan serve
+
+Acceso desde el navegador:
+
+http://127.0.0.1:8000
+4. Comandos Utilizados
+php artisan config:clear
+php artisan migrate:fresh
+php artisan vendor:publish --tag=crud
+php artisan make:crud products
+php artisan serve
+5. Verificación del Sistema
+
+Se espera:
+
+Conexión correcta a la base de datos crudlab
+Tabla products creada correctamente
+Interfaz accesible desde el navegador
+Funcionalidad CRUD operativa (crear, listar, editar y eliminar)
+6. Consideraciones
+Ejecutar los comandos dentro de la carpeta del proyecto:
+C:\wamp64\www\LaboratorioCrud
+Mantener activos los servicios de WAMP (Apache y MySQL)
+Verificar que el archivo artisan esté en la raíz del proyecto
